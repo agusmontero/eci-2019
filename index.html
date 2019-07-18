@@ -1,0 +1,661 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>ECI 2019. A not so deep introduction to deep learning</title>
+	<meta name="description" content="ECI 2019. A not so deep introduction to deep learning"></meta>
+	<meta name="author" content="Agustin Montero"></meta>
+
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/reveal.css">
+	<link rel="stylesheet" href="css/theme/eci2019.css">
+	<link rel="stylesheet" href="lib/css/monokai.css">
+	<!-- <link rel="stylesheet" href="lib/css/zenburn.css"> -->
+
+	<!-- Printing and PDF exports -->
+	<script>
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		document.getElementsByTagName('head')[0].appendChild(link);
+	</script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section>
+				<div class="circular" style="background: url(images/me-style-transfer-2.png) no-repeat; background-position: center; margin-left: 10%;"></div>
+				<div class="circular" style="background: url(images/me-style-transfer-3.png) no-repeat; background-position: center; margin-left: 5%;"></div>
+				<div class="circular" style="background: url(images/me-style-transfer-1.png) no-repeat; background-position: center; margin-left: 5%;"></div>
+				<h1 style="text-align:center">A not so deep introduction to deep learning</h1>
+				<h3 style="text-align:center">ECI 2019</h3><br>
+				<h4 style="text-align: center; font-size: 25px;">by Agus Montero</h4>
+			</section>
+			<section>
+				<section>
+					<h2>Introduction</h2>
+				</section>
+				<section>
+					<h3 style="text-align:center">About me</h3>
+					<div style="font-size:30px;">
+						<p>Data Scientist at Almundo</p>
+						<img class="it-icon" src="images/ds-icon.svg">
+						<img class="it-icon" src="images/graphs-icon.jpg">
+						<p>Optimization & Machine Learning <img style="width: 32px; height: 32px;"
+								src="images/hearth-icon.svg"></p>
+					</div>
+				</section>
+				<section>
+					<h3 style="text-align:center">About our team</h3>
+					<div style="font-size: 28px;">
+						<p>Big Data & Machine Learning at Almundo</p>
+						<p>Personalization Team</p>
+						<p>
+							<img class="it-icon" style="padding-right: 3em;" src="images/lab.png">
+							<img class="it-icon" src="images/python-icon.png">
+							<img class="it-icon" src="images/jupyter-icon.png">
+							<img class="it-icon" src="images/plotly-icon.png">
+							<img class="it-icon" src="images/bokeh-icon.png">
+							<img class="it-icon" src="images/scikit-learn-icon.png">
+							<img class="it-icon" src="images/tf-icon.png">
+						</p>
+						<p>
+							<img class="it-icon" style="padding-right: 3em;" src="images/developer-icon.png">
+							<img class="it-icon" src="images/java-icon.png">
+							<img class="it-icon" src="images/spring-icon.png">
+							<img class="it-icon" src="images/mongodb-icon.jpg">
+							<img class="it-icon" src="images/docker-icon.svg">
+							<img class="it-icon" src="images/rabbit-icon.png">
+							<img class="it-icon" src="images/kafka-icon.jpg">
+						</p>
+						<p>Focus on</p>
+						<div style="font-size: 28px;">
+							<li>Tracking</li>
+							<li>Recommendation</li>
+							<li>Ranking</li>
+						</div>
+				</section>
+				<!-- <section>
+					<h3 style="text-align:center">About this talk</h3>
+					<div>
+						<li>Deep Neural Networks</li>
+						<li>Practical ascpects of Deep Learning</li>
+						<li>Convolutional & Recurrent DNNs</li>
+						<li>Frameworks & examples</li>
+						<li>Transfer learning & Embeddings</li>
+						<li>Ongoing work at Almundo</li>
+					</div>
+				</section> -->
+			</section>
+			<!-- <section>
+				<section>
+					<h2>Deep Neural Networks</h2>
+					<h3>Brief history</h3>
+				</section>
+				<section>
+					<img src="images/trends.png">
+				</section>
+				<section style="font-size: 28px;">
+					<p><b>1950</b>s: First neural-networks</p>
+					<p class="fragment fade-in" data-fragment-index=2>
+						Problem: train large neural networks 
+					</p>
+					<p class="fragment fade-in" data-fragment-index=3>
+						<b>1980</b>s: backpropagation (re-discovered)
+					</p>
+					<p class="fragment fade-in" data-fragment-index=4>
+						<b>1989</b>: Bell Labs, Yann LeCun developed LeNet. Automatic reading of ZIP codes on mail envelopes.
+					</p>
+					<p class="fragment fade-in" data-fragment-index=5>
+						<b>1990</b>s: Kernel methods fame (best known: support vector machine)
+					</p>
+					<p class="fragment fade-in" data-fragment-index=6>
+						<b>2000</b>s: Decision trees<br>
+						<b>2010</b>: Random forest is the favorite on Kaggle
+					</p>
+					<p class="fragment fade-in" data-fragment-index=7>
+						<b>2014</b>: Gradient boosting machines
+					</p>
+					<p class="fragment fade-in" data-fragment-index=8>
+						<b>what about neural networks?</b>
+					</p>
+				</section>
+				<section style="font-size: 24px;">
+					<p><b>2010</b> People still working on neural newtorks</p>
+					<figure>
+						<img src="images/godfathers.webp" width="600px;">
+						<figcaption style="font-size: 10px;">Source:
+							http://fortune.com/2019/04/02/eye-on-ai-godfathers-deep-learning/
+						</figcaption>
+					</figure>
+					<p class="fragment fade-in" data-fragment-index=2>
+						<b>2012</b>: breakthrough on challenge ImageNet<br>
+						<b>2015</b>: winner of ImageNet reached an accuracy of 96.4%
+					</p>
+					<p class="fragment fade-in" data-fragment-index=3>
+						<b>Back to neural networks!</b>
+					</p>
+					<p class="fragment fade-in" data-fragment-index=4>Combination of <b>hardware</b>, <b>datasets</b> and <b>algorithmic advances</b></p>
+				</section>
+				<section style="font-size: 24px;">
+					A <b>brief</b> history of deep learning can be found in<br>
+					<img src="images/book-deep-learning.png" width="350px;">
+				</section> -->
+			</section>
+			<section>
+				<section>
+					<h2>Deep Neural Networks</h2>
+					<h3>Motivation and ideas</h3>
+				</section>
+				<section style="font-size: 23px;">
+					<p data-fragment-index=1>
+						<b>Challenge:</b> create an algorithm to distinguish dogs from cats
+					</p>
+					<p class="fragment fade-in" data-fragment-index=2>
+						<b>Data:</b> images of dogs and cats (let's call it $X$)
+						<img src="images/dogs-vs-cats.png" style="float: right; height: 300px; margin-top: -50px; margin-right: 90px;">
+					</p>
+					<p class="fragment fade-in" data-fragment-index=3>
+						<b>Simple model:</b></br></br>
+						$y_{pred} = g(w^T x + b)$ where $g$ is the sigmoid function
+						<img src="images/sigmoid.png" style="float: right; height: 150px; margin-right: 150px;">
+					</p>
+					<br>
+					<p class="fragment fade-in" data-fragment-index=5>
+						$w$, $b$?
+					</p>
+					<p class="fragment fade-in" data-fragment-index=6>
+						<b>Learning</b> $w$ and $b$:
+					</p>
+					<p class="fragment fade-in" data-fragment-index=7>
+						$X \rightarrow X_{train}, X_{test}$
+					</p>
+					<p class="fragment fade-in" data-fragment-index=8>
+						Define loss function $\mathcal{L}(y_{pred}, y_{true})$<br>
+						(I want $y_{pred}\approx y_{true}$)
+					</p>
+					<p class="fragment fade-in" data-fragment-index=9>
+						Option 1: $\quad (y_{pred} - y_{true})^2$
+					</p>
+					<p class="fragment fade-in" data-fragment-index=10>
+						Option 2: $\quad -y_{true} \log(y_{pred}) + (1-y_{true}) \log(1 - y_{pred}) $
+					</p>
+				</section>
+				<section style="font-size: 23px;">
+					<p data-fragment-index=1>
+						<b>Cost function:</b>
+					</p>
+
+					<p class="fragment fade-in" data-fragment-index=2>
+						$J(w,b) = \frac{1}{m} \sum_{i=1}^m \mathcal{L}(y_{pred}^{(i)}, y_{true}^{(i)})$
+					</p>
+
+					<p class="fragment fade-in" data-fragment-index=3>
+						<b>Optimization problem:</b></br></br>
+
+						minimize $J(w,b)$
+					</p>
+
+					<p class="fragment fade-in" data-fragment-index=4>
+						Option: Grandient descent</br></br>
+
+						<div style="float: right; margin-top: -300px; margin-right: 40px; width: 550px;"
+							class="fragment fade-in" data-fragment-index=4>
+							<figure>
+								<img src="images/gradient-descent.png" width="350px;">
+								<figcaption style="font-size: 14px;">Source:
+									http://www.deepideas.net/deep-learning-from-scratch-iv-gradient-descent-and-backpropagation
+								</figcaption>
+							</figure>
+						</div>
+					</p>
+				</section>
+				<section>
+					<div>
+						<pre style="font-size: 18px; "><code class="prettyprint prettyprinted python">
+# initialize
+w = np.zeros(shape=(X.shape[0], 1))
+b = 0
+
+costs = []
+
+# optimize
+for i in range(num_iterations):
+
+	# propagate
+	Y_pred = sigmoid(np.dot(w.T, X) + b)
+
+	cost = (-1 / m) * np.sum(
+		Y_train * np.log(Y_pred)+ (1-Y_train) * (np.log(1 - Y_pred)))
+	costs.append(cost)
+	
+	# derivatives
+	dw = (1 / m) * np.dot(X, (Y_pred - Y_train).T)  # dL/dw
+	db = (1 / m) * np.sum(Y_pred - Y_pred)		# dL/db
+
+	# update
+	w = w - learning_rate * dw
+	b = b - learning_rate * db
+								</code></pre>
+					</div>
+				</section>
+				<section>
+					Simple architecture <br><br>
+					<img src="images/lr-graph.png" width="570px;">
+				</section>
+				<section>
+					Another architecture <br><br>
+					<img src="images/nn-basic-graph.png" width="525px;">
+				</section>
+				<section>
+					Deeper architecture <br><br>
+					<img src="images/nn-deeper-graph.png" width="750px;">
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Practical aspects of Deep Learning</h2>
+					<h3>At least some of them</h3>
+				</section>
+				<section>
+					<dl style="font-size: 30px;">
+						<dt>Parameters</dt>
+						<dd>$W$, $b$</dd>
+						<br>
+						<dt>Hyper-parameters</dt>
+						<dd>Learning rate</dd>
+						<dd>Activation functions</dd>
+						<dd>Number of iterations of GD</dd>
+						<dd>Number of hidden layers</dd>
+						<dd>Number of hidden units</dd>
+						<dd>Initialization</dd>
+						<dd>Momentum, mini-batches size, regularizations, etc.</dd>
+					</DL>
+				</section>
+				<section>
+					<b>Activation functions</b><br>
+					<div style="position: relative">
+						<span style="float:left">
+							<img src="images/af-sigmoid.png" width="350px;">
+						</span>
+						<span style="float:right">
+							<img src="images/af-relu.png" width="350px;">
+						</span>
+						<span style="float:left">
+							<img src="images/af-tanh.png" width="350px;">
+						</span>
+						<span style="float:right">
+							<img src="images/af-leaky-relu.png" width="350px;">
+						</span>
+					</div>
+					<div style="font-size:16px; position: fixed; bottom: 100px;">
+						Glorot, X., & Bengio, Y. (2010, March). Understanding the difficulty of training deep
+						feedforward neural networks.<br>
+						LeCun, Y. A., Bottou, L., Orr, G. B., & Müller, K. R. (2012). Efficient backprop.
+					</div>
+				</section>
+				<section>
+					<b>Data = Train + Dev + Test</b><br><br>
+					<dl style="font-size: 25px;">
+						<dt>Traditional rule of thumb</dt>
+						<dd>70/30</dd>
+						<dd>60/20/20</dd>
+						<br>
+						<dt class="fragment fade-in" data-fragment-index=2>Big-data</dt>
+						<dd class="fragment fade-in" data-fragment-index=2>what if I have 10M data points?</dd>
+					</dl>
+				</section>
+				<section>
+					<b>Bias / Variance tradeoff</b>
+					<!-- <div style="margin-left: 10%; margin-bottom: 5%;">
+						<figure>
+							<img src="images/bias-variance.png" width="700px;">
+							<figcaption style="font-size: 14px;">Source:
+								https://www.coursera.org/learn/deep-neural-network</figcaption>
+						</figure>
+					</div> -->
+					<div style="font-size: 20px;">
+						<p>What if...</p>
+						<dl>
+							<dt class="fragment fade-in" data-fragment-index=2>1% train error, 10% dev error?</dt>
+							<dd class="fragment fade-in" data-fragment-index=3>
+								overfitting (high variance) $\rightarrow$ apply regularization (next slide) or simpler model
+							</dd><br>
+							<dt class="fragment fade-in" data-fragment-index=4>15% train error, 14% dev error?</dt>
+							<dd class="fragment fade-in" data-fragment-index=5>
+								underfitting (high bias), given human error is near 0% $\rightarrow$ Add more layers (units), more iterations, try a different optimization algorithm
+							</dd><br>
+							<dt class="fragment fade-in" data-fragment-index=6>15% train error, 30% dev error?</dt>
+							<dd class="fragment fade-in" data-fragment-index=7>
+								high bias and high variance (the worst of two worlds)
+							</dd><br>
+							<dt class="fragment fade-in" data-fragment-index=8>0.5% train error, 1% dev error?</dt>
+							<dd class="fragment fade-in" data-fragment-index=9>Nice!</dd>
+						</dl>
+					</div>
+				</section>
+				<section>
+					<b>Regularization</b><br>
+					<div style="font-size: 24px;">
+						<p>We want to reduce variance (overfitting)</p>
+						<div class="fragment fade-in" data-fragment-index=1>
+							<p>Option 1: $L_2$ regularization</p>
+							<dl>
+								<dd>$\frac{1}{m} \sum_{i=1}^m \mathcal{L}(y_{pred}^{(i)}, y_{true}^{(i)}) + \frac{\lambda}{2m}
+										\sum_{l=1}^L \left\lVert W^{[l]} \right\rVert^2_F$
+								</dd>
+							</dl>
+						</div>
+						<div class="fragment fade-in" data-fragment-index=2>
+							<p>Option 2: Dropout regularization</p>
+							<dl>
+								<dd>Turn off some weights on each iteration based on a probability</dd>
+								<dd style="font-size:16px;">Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I., & Salakhutdinov, R. (2014). Dropout: a simple way to prevent neural networks from overfitting.</dd>
+							</dl>
+						</div>
+						<div class="fragment fade-in" data-fragment-index=3>
+							<p>Option 3: Data Augmentation</p>
+							<dl>
+								<dd>Apply random position/rotation/flip to an image to get more data</dd>
+								<dd style="font-size:16px;">Perez, L., & Wang, J. (2017). The effectiveness of data augmentation in image classification using deep learning.</dd>
+							</dl>
+						</div>
+						<div class="fragment fade-in" data-fragment-index=3>
+							<p>Option 4: Early stopping</p>
+						</div>
+					</div>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Convolutional Neural Networks</h2>
+				</section>
+				<section style="font-size:24px;">
+					<p data-fragment-index=1>
+						<b>Challenge:</b> create an algorithm to distinguish dogs from cats
+						<img src="images/dogs-vs-cats.png" style="float: right; height: 300px; margin-top: -50px; margin-right: 90px;">
+					</p>
+
+					<p class="fragment fade-in" data-fragment-index=2>
+						<b>Data:</b> images of size 1000 x 1000 x 3 of dogs and cats
+					</p>
+
+					<p class="fragment fade-in" data-fragment-index=2>
+						<b>Model:</b> Neural network where first layer has 1000 units
+					</p>
+
+					<p class="fragment fade-in" data-fragment-index=3>
+						<b>Problems:</b><br>
+						<span style="font-size: 20px">
+							3 billion parameters only with one layer<br>
+							Needs lots of data to prevent overfitting<br>
+							High computational cost<br>
+							High memory cost
+						</span>
+					</p>
+
+					<p class="fragment fade-in" data-fragment-index=4>
+						<b>Convolutional layers</b><br>
+						Fundamental block of CNNs
+					</p>
+				</section>
+				<section style="font-size:18px;">
+					<figure>
+						<img src="images/convolution-operation.png">
+						<figcaption style="font-size: 14px;">Source:
+							https://medium.com/machine-learning-bites/deeplearning-series-convolutional-neural-networks-a9c2f2ee1524
+						</figcaption>
+					</figure>
+					<figure class="fragment fade-in-then-out" data-fragment-index="2">
+						<img src="images/convolutional-operation-2.png" style="position: absolute; top: 10px">
+					</figure>
+				</section>
+				<section>
+					<figure>
+						<img src="images/convolution-volume.png">
+						<figcaption style="font-size: 14px;">Source:
+							https://medium.com/machine-learning-bites/deeplearning-series-convolutional-neural-networks-a9c2f2ee1524
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<figure>
+						<img src="images/convolutional-layer.png">
+						<figcaption style="font-size: 14px;">Source:
+							https://medium.com/machine-learning-bites/deeplearning-series-convolutional-neural-networks-a9c2f2ee1524
+						</figcaption>
+					</figure>
+				</section>
+			</section>
+			<!-- <section>
+				<section>
+					<h2>Recurrent Neural Networks</h2>
+				</section>
+				<section>
+					<p>Why not standard neural networks?</p><br>
+					<figure>
+						<img src="images/recurrent-nn-motivation.png">
+						<figcaption style="font-size: 14px;">Source: https://www.coursera.org/learn/nlp-sequence-models
+						</figcaption>
+					</figure>
+				</section>
+				<section>
+					<figure style="margin-left: 10%; margin-bottom: 5%;">
+						<img src="images/recurrent-nn-fp.png" width="700px;">
+						<figcaption style="font-size: 14px;">Source: https://www.coursera.org/learn/nlp-sequence-models
+						</figcaption>
+					</figure>
+					<div data-markdown style="font-size: 24px;" class="fragment fade-in" data-fragment-index=2>
+						$$a^{< t>} = g(w_{aa} a^{< t-1>} + w_{ax} x^{< t>} + b_a)$$
+						$$\hat{y}^{< t>} = g(w_{ya} a^{< t>} + b_y)$$
+					</div>
+				</section>
+			</section> -->
+			<section>
+				<section>
+					<h2>Frameworks & examples</h2>
+				</section>
+				<section style="font-size:24px;">
+					<p>Some leading frameworks</p><br>
+					<span style="float: left;">
+						<li>Caffe</li>
+						<li>CNTK</li>
+						<li>TensorFlow</li>
+						<li>Theano</li>
+						<li>Chainer</li>
+						<li>PyTorch</li>
+						<li>mxnet</li>
+						<li>Theano</li>
+						<li>Keras</li>
+					</span>
+					<figure style="float: right">
+						<img src="images/deep-learning-frameworks.png" width="600px;">
+						<figcaption style="font-size: 16px;">https://www.nvidia.com/en-us/deep-learning-ai/developer</figcaption>
+					</figure>
+				</section>
+				<section>
+					Example code in <b>Keras</b>
+					<p style="font-size: 14px;">Based on the example from https://keras.io/getting-started/sequential-model-guide</p>
+					<div>
+						<pre style="font-size: 18px; "><code class="prettyprint prettyprinted python">
+from keras.models import Sequential
+from keras.layers import Dense, Activation
+
+model = Sequential([
+	Dense(32, input_shape=(784,)),
+	Activation('relu'),
+	Dense(1),
+	Activation('sigmoid'),
+])
+
+						</code></pre></div>
+				</section>
+				<section>
+					Example code in <b>Keras</b>
+					<p style="font-size: 14px;">Based on the example from https://keras.io/examples/cifar10_cnn</p>
+					<div>
+						<pre style="font-size: 18px; "><code class="prettyprint prettyprinted python">
+# The data, split between train and test sets:
+x_train, y_train, x_test, y_test = load_data()
+
+x_train /= 255.
+x_test /= 255.
+
+model = Sequential()
+model.add(Conv2D(32, (3, 3),
+	activation='relu',
+	padding='same',
+	input_shape=x_train.shape[1:]))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+
+model.add(Flatten())
+model.add(Dense(512, activation='relu'))
+model.add(Dropout(0.5))
+
+model.add(Dense(1))
+model.add(Activation('sigmoid'))
+
+# initiate RMSprop optimizer
+opt = keras.optimizers.rmsprop(lr=0.0001, decay=1e-6)
+
+# Let's train the model using RMSprop
+model.compile(loss='binary_crossentropy',
+	optimizer=opt, metrics=['accuracy'])
+
+model.fit(x_train, y_train, 
+	batch_size=batch_size,
+	epochs=epochs,
+	validation_data=(x_test, y_test),
+	shuffle=True)
+
+# Score trained model.
+scores = model.evaluate(x_test, y_test, verbose=1)
+print('Test loss:', scores[0])
+print('Test accuracy:', scores[1])
+
+
+						</code></pre></div>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Transfer learning & Embeddings</h2>
+					<h3>Using pre-trained models</h3>
+				</section>
+				<section>
+					<div style="font-size: 22px;">
+						<li>
+							<b>Feature extraction</b>
+							<p style="font-size: 18px;"> Use the representations learned by a previous network to extract meaningful features from new samples.</p>
+						</li>
+						<pre style="font-size: 12px; "><code class="prettyprint prettyprinted python">
+from keras.applications.resnet50 import ResNet50
+from keras.preprocessing import image
+from keras.applications.resnet50 import preprocess_input, decode_predictions
+import numpy as np
+
+model = ResNet50(weights='imagenet')
+
+img_path = 'elephant.jpg'
+img = image.load_img(img_path, target_size=(224, 224))
+x = np.expand_dims(image.img_to_array(img), axis=0)
+x = preprocess_input(x)
+
+preds = model.predict(x)
+print('Predicted:', decode_predictions(preds, top=3)[0])
+						</code></pre>
+						<li>
+							<b>Fine-tunning</b>
+							<p style="font-size: 18px;">Unfreezing a few of the top layers of a frozen model base and jointly training both the newly-added classifier layers and the last layers of the base model.</p>
+						</li>
+					</div><br>
+					<div style="font-size:15px; position: absolute; bottom: 0px;">
+						https://keras.io/applications<br>
+						https://www.tensorflow.org/beta/tutorials/images/transfer_learning
+					</div>
+				</section>
+			</section>
+			<section>
+				<section>
+					<h2>Ongoing work at Almundo</h2>
+				</section>
+				<section style="font-size:18px;">
+					<img src="images/almundo-listing.png">
+				</section>
+				<section>
+					<img style="position: fixed; margin-top: -25%; margin-left: 20%; width: 550px;" src="images/hotel-images-0.png">
+					<img class="fragment fade-in-then-out" data-fragment-index=2 style="position: fixed; margin-top: -25%; margin-left: 20%; width: 550px;" src="images/hotel-images-2.png">
+					<img class="fragment fade-in-then-out" data-fragment-index=3 style="position: fixed; margin-top: -25%; margin-left: 20%; width: 550px;" src="images/hotel-images-3.png">
+					<img class="fragment fade-in-then-out" data-fragment-index=4 style="position: fixed; margin-top: -25%; margin-left: 20%; width: 550px;" src="images/hotel-images-4.png">
+					<img class="fragment fade-in-then-out" data-fragment-index=5 style="position: fixed; margin-top: -25%; margin-left: 20%; width: 550px;" src="images/hotel-images-5.png">
+					<img class="fragment fade-in-then-out" data-fragment-index=6 style="position: fixed; margin-top: -25%; margin-left: 20%; width: 550px;" src="images/hotel-images-1.png">
+					<img class="fragment fade-in-then-out" data-fragment-index=7 style="position: fixed; margin-top: -25%; margin-left: 15%; width: 650px;" src="images/hotel-images-tags.png">
+				</section>
+				<section>
+					<h3>Currently working on</h3>
+					<div style="font-size:30px;">
+						<dl>
+							<li>Personalized hotel listings</li>
+							<li>Tagging of hotel images</li>
+							<li>Deep Recommendation Systems</li>
+							<dl>
+								<li>Hotel2Vec ideas</li>
+								<li>User2Vec ideas</li>
+							</dl>
+						</dl>
+					</div>
+				</section>
+			</section>
+		</div>
+
+		<div class="footer">
+			<div style="text-align:left; float:left; width:15%; margin-left:2%; margin-top:1%">
+				<img src="images/logo-almundo.png">
+			</div>
+			<div style="text-align:right; float:right; margin-right:5%; margin-top:1%">
+				<p style=" font-size:16px; height:36px"><img style="vertical-align:middle" class="social-icon"
+						src="images/twitter-icon.png"><a href="https://twitter.com/agvsmontero"> agvsmontero</a></p>
+			</div>
+		</div>
+	</div>
+
+	<script src="lib/js/head.min.js"></script>
+	<script src="js/reveal.js"></script>
+
+	<script>
+		// More info about config & dependencies:
+		// - https://github.com/hakimel/reveal.js#configuration
+		// - https://github.com/hakimel/reveal.js#dependencies
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			history: true,
+			center: true,
+
+			transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+			navigationMode: 'linear',
+
+			dependencies: [
+				{ src: 'lib/js/classList.js', condition: function () { return !document.body.classList; } },
+				{ src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+				{ src: 'plugin/highlight/highlight.js', async: true, condition: function () { return !!document.querySelector('pre code'); }, callback: function () { hljs.initHighlightingOnLoad(); } },
+				{ src: 'plugin/zoom-js/zoom.js', async: true },
+				{ src: 'plugin/notes/notes.js', async: true },
+				{ src: 'plugin/math/math.js', async: true }
+			]
+		});
+	</script>
+</body>
+
+</html>
